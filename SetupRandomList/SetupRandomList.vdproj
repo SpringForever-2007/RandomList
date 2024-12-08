@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_144C60279DBE4795A80ECA6FC1D207D5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1AECE252D4CF47AC81702D5DA1547295"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -382,26 +376,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_144C60279DBE4795A80ECA6FC1D207D5"
-            {
-            "SourcePath" = "8:C:\\Windows\\System32\\msiexec.exe"
-            "TargetName" = "8:msiexec.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_C963F9085A2A4023B0FBB93C14DB9325"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1AECE252D4CF47AC81702D5DA1547295"
             {
             "SourcePath" = "8:..\\MyApp.png"
@@ -942,7 +916,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_A23CB84004224E7FB12F72D399BF4945"
                     {
-                    "Name" = "8:RandomList"
+                    "Name" = "8:Jiang Xinghua"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -991,8 +965,8 @@
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Jiang Xinghua"
-        "ARPHELPTELEPHONE" = "8:18127196082"
-        "ARPHELPLINK" = "8:http://www.github.com/SpringForever-2007/RandomList"
+        "ARPHELPTELEPHONE" = "8:"
+        "ARPHELPLINK" = "8:"
         "Title" = "8:Setup RandomList"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Jiang Xinghua"
@@ -1116,20 +1090,6 @@
             "Icon" = "8:_5F884E2B7BF847EBB2930580863D59F5"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0EAAE42A49174327BFA32E9E65CFFE89"
-            {
-            "Name" = "8:uninstall"
-            "Arguments" = "8:/x {37E0163E-558C-475C-85E1-A789F6D6E948}"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_144C60279DBE4795A80ECA6FC1D207D5"
-            "Folder" = "8:_A23CB84004224E7FB12F72D399BF4945"
-            "WorkingFolder" = "8:_C963F9085A2A4023B0FBB93C14DB9325"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_47B18205B1234DB4BD48C0D7B5B6091D"
             {
             "Name" = "8:RandomList"
@@ -1142,20 +1102,6 @@
             "Folder" = "8:_1D828B103A094EC08FE5B62B4DF62B50"
             "WorkingFolder" = "8:_C963F9085A2A4023B0FBB93C14DB9325"
             "Icon" = "8:_5F884E2B7BF847EBB2930580863D59F5"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CB09F28F22D540B4A1B37D2683A909AA"
-            {
-            "Name" = "8:uninstall"
-            "Arguments" = "8:/x {37E0163E-558C-475C-85E1-A789F6D6E948}"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_144C60279DBE4795A80ECA6FC1D207D5"
-            "Folder" = "8:_C963F9085A2A4023B0FBB93C14DB9325"
-            "WorkingFolder" = "8:_C963F9085A2A4023B0FBB93C14DB9325"
-            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
