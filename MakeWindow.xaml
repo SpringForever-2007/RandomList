@@ -1,0 +1,50 @@
+﻿<Window x:Class="RandomList.MakeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RandomList"
+        mc:Ignorable="d"
+        Title="生成" Height="450" Width="800" Background="WhiteSmoke">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height='50'/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="性别" Height="25" Width="40"></TextBlock>
+            <ComboBox Height="25" SelectionChanged="SexComboBox_SelectionChanged" x:Name="SexComboBox">
+                <ComboBoxItem Content="男"></ComboBoxItem>
+                <ComboBoxItem Content="女"></ComboBoxItem>
+                <ComboBoxItem Content="全部"></ComboBoxItem>
+            </ComboBox>
+            <TextBlock Text="住宿" Height="25" Width="40"></TextBlock>
+            <ComboBox Height="25" SelectionChanged="BoardComboBox_SelectionChanged" x:Name="BoardComboBox">
+                <ComboBoxItem Content="是"></ComboBoxItem>
+                <ComboBoxItem Content="否"></ComboBoxItem>
+                <ComboBoxItem Content="全部"></ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBlock Text="最小值" Height="25" Width="60"></TextBlock>
+            <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="MinTextBox" TextChanged="TextBox_TextChanged" TabIndex="0"></TextBox>
+            <TextBlock Text="最大值" Height="25" Width="60"></TextBlock>
+            <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="MaxTextBox" TextChanged="TextBox_TextChanged" TabIndex="1"></TextBox>
+            <TextBlock Text="个数" Height="25" Width="60"></TextBlock>
+            <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="CountTextBox" TextChanged="TextBox_TextChanged" TabIndex="2"></TextBox>
+        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
+            <TextBox IsReadOnly="True" AcceptsReturn="True" TextWrapping="NoWrap" x:Name="ResultsTextBox" TabIndex="3"></TextBox>
+        </ScrollViewer>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="生成" Grid.Column="0" Click="MakeButton_Click" Margin="10,10,10,10" Focusable="True" TabIndex="4"></Button>
+            <Button Content="关闭" Grid.Column="1" Click="CloseButton_Click" Margin="10,10,10,10" TabIndex="5"></Button>
+        </Grid>
+    </Grid>
+</Window>

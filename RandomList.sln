@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomList", "RandomList.csproj", "{9F1D9542-44D5-4F81-8F50-16CA32917F75}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupRandomList", "SetupRandomList\SetupRandomList.vdproj", "{65428680-F617-4A9E-902A-F23C2331CE2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F1D9542-44D5-4F81-8F50-16CA32917F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F1D9542-44D5-4F81-8F50-16CA32917F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F1D9542-44D5-4F81-8F50-16CA32917F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1D9542-44D5-4F81-8F50-16CA32917F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65428680-F617-4A9E-902A-F23C2331CE2C}.Debug|Any CPU.ActiveCfg = Debug
+		{65428680-F617-4A9E-902A-F23C2331CE2C}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {848CC363-71F9-4FDE-9948-0413DFF663F7}
+	EndGlobalSection
+EndGlobal
