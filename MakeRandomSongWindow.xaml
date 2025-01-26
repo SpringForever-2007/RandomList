@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomList"
         mc:Ignorable="d"
-        Title="生成" Height="450" Width="800" Background="WhiteSmoke">
+        Title="生成" Height="300" Width="600" Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>

@@ -5,25 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomList"
         mc:Ignorable="d"
-        Title="编辑项" Height="250" Width="350" Background="WhiteSmoke">
+        Title="编辑项" Height="350" Width="350" Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Row="0">
-            <TextBlock Text="姓名"></TextBlock>
-            <TextBox x:Name="NameTextBox" TabIndex="0" Focusable="True"></TextBox>
-            <TextBlock Text="是否为男性"></TextBlock>
-            <CheckBox x:Name="SexCheckBox" IsThreeState="False" TabIndex="1"></CheckBox>
-            <TextBlock Text="座位列"></TextBlock>
-            <TextBox x:Name="ColTextBox" TextChanged="TextBox_TextChanged" TabIndex="2"></TextBox>            
-            <TextBlock Text="座位行"></TextBlock>
-            <TextBox x:Name="RowTextBox" TextChanged="TextBox_TextChanged" TabIndex="3"></TextBox>
-
-            <TextBlock Text="是否住宿"></TextBlock>
-            <CheckBox x:Name="BoardChecjBox" TabIndex="4"></CheckBox>
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="姓名" Grid.Row="0" Grid.Column="0" Margin="10,10,10,10"></TextBlock>
+            <TextBox x:Name="NameTextBox" TabIndex="0" Focusable="True" Grid.Row="0" Grid.Column="1" Margin="10,10,10,10"></TextBox>
+            <TextBlock Text="是否为男性" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10"></TextBlock>
+            <CheckBox x:Name="SexCheckBox" IsThreeState="False" TabIndex="1"  Grid.Row="1" Grid.Column="1" Margin="10,10,10,10"></CheckBox>
+            <TextBlock Text="座位列" Grid.Row="2" Grid.Column="0" Margin="10,10,10,10"></TextBlock>
+            <TextBox x:Name="ColTextBox" TextChanged="TextBox_TextChanged" TabIndex="2" Grid.Row="2" Grid.Column="1" Margin="10,10,10,10"></TextBox>
+            <TextBlock Text="座位行" Grid.Row="3" Grid.Column="0" Margin="10,10,10,10"></TextBlock>
+            <TextBox x:Name="RowTextBox" TextChanged="TextBox_TextChanged" TabIndex="3" Grid.Row="3" Grid.Column="1" Margin="10,10,10,10"></TextBox>
+            <TextBlock Text="是否住宿" Grid.Row="4" Grid.Column="0" Margin="10,10,10,10"></TextBlock>
+            <CheckBox x:Name="BoardChecjBox" TabIndex="4" Grid.Row="4" Grid.Column="1" Margin="10,10,10,10"></CheckBox>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

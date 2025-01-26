@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomList"
         mc:Ignorable="d"
-        Title="生成" Height="450" Width="800" Background="WhiteSmoke">
+        Title="生成" Height="350" Width="600" Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -28,11 +28,11 @@
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <TextBlock Text="最小值" Height="25" Width="60"></TextBlock>
+            <TextBlock Text="最小值" Height="25" Margin="20,10,10,10"></TextBlock>
             <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="MinTextBox" TextChanged="TextBox_TextChanged" TabIndex="0"></TextBox>
-            <TextBlock Text="最大值" Height="25" Width="60"></TextBlock>
+            <TextBlock Text="最大值" Height="25" Margin="20,10,10,10"></TextBlock>
             <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="MaxTextBox" TextChanged="TextBox_TextChanged" TabIndex="1"></TextBox>
-            <TextBlock Text="个数" Height="25" Width="60"></TextBlock>
+            <TextBlock Text="个数" Height="25" Margin="20,10,10,10"></TextBlock>
             <TextBox AcceptsReturn="False" Height="25" Width="40" x:Name="CountTextBox" TextChanged="TextBox_TextChanged" TabIndex="2"></TextBox>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">

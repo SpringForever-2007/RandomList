@@ -1,7 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppData>
   <Students>
+    <Student Name="蔡盛彬" Sex="男" Row="6" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="曹阳" Sex="男" Row="5" Col="3" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈均柠" Sex="男" Row="4" Col="6" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈润强" Sex="男" Row="7" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈诗颖" Sex="女" Row="2" Col="6" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈芯言" Sex="女" Row="4" Col="8" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈煊宗" Sex="男" Row="6" Col="3" IsBoarding="False" IsVisibility="True" />
+    <Student Name="陈雅善" Sex="女" Row="2" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="陈子璇" Sex="女" Row="2" Col="8" IsBoarding="False" IsVisibility="True" />
+    <Student Name="邓文靖" Sex="女" Row="2" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="邓佾琪" Sex="女" Row="2" Col="3" IsBoarding="True" IsVisibility="True" />
+    <Student Name="董思延" Sex="女" Row="1" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="杜焱辉" Sex="男" Row="1" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="冯焯" Sex="女" Row="3" Col="8" IsBoarding="True" IsVisibility="True" />
+    <Student Name="何思妍" Sex="女" Row="4" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="黄诗恒" Sex="男" Row="4" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="黄思晴" Sex="女" Row="5" Col="8" IsBoarding="False" IsVisibility="True" />
+    <Student Name="江兴华" Sex="男" Row="6" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="柯亭亦" Sex="女" Row="6" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="黎梓贤" Sex="男" Row="6" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="李冠霖" Sex="男" Row="5" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="李钰" Sex="女" Row="3" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁国楹" Sex="女" Row="1" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁嘉颖" Sex="女" Row="5" Col="6" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁诗儒" Sex="女" Row="2" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁天恩" Sex="女" Row="5" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁文涛" Sex="男" Row="7" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁欣" Sex="女" Row="5" Col="7" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁阳娣" Sex="女" Row="3" Col="6" IsBoarding="True" IsVisibility="True" />
+    <Student Name="梁展豪" Sex="男" Row="4" Col="7" IsBoarding="False" IsVisibility="True" />
+    <Student Name="梁智超" Sex="男" Row="2" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="龙栩烨" Sex="男" Row="6" Col="6" IsBoarding="True" IsVisibility="True" />
+    <Student Name="卢锦杨" Sex="男" Row="3" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="卢滢哲" Sex="女" Row="5" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="罗星杰" Sex="男" Row="3" Col="5" IsBoarding="True" IsVisibility="True" />
+    <Student Name="欧梓晴" Sex="女" Row="2" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="潘芷欣" Sex="女" Row="3" Col="3" IsBoarding="True" IsVisibility="True" />
+    <Student Name="彭恩怡" Sex="女" Row="4" Col="3" IsBoarding="True" IsVisibility="True" />
+    <Student Name="区敏霞" Sex="女" Row="3" Col="7" IsBoarding="True" IsVisibility="True" />
+    <Student Name="沈家炜" Sex="男" Row="6" Col="7" IsBoarding="True" IsVisibility="True" />
+    <Student Name="谭湸瑜" Sex="男" Row="5" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="谭泳雯" Sex="女" Row="1" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="唐梓言" Sex="女" Row="1" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="吴纪柔" Sex="女" Row="2" Col="7" IsBoarding="True" IsVisibility="True" />
+    <Student Name="谢姗珊" Sex="女" Row="3" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="邢竞文" Sex="女" Row="3" Col="2" IsBoarding="True" IsVisibility="True" />
+    <Student Name="余金霞" Sex="女" Row="6" Col="5" IsBoarding="False" IsVisibility="True" />
+    <Student Name="张敏妍" Sex="女" Row="5" Col="9" IsBoarding="True" IsVisibility="True" />
+    <Student Name="张欣丽" Sex="女" Row="5" Col="4" IsBoarding="True" IsVisibility="True" />
+    <Student Name="张泽锴" Sex="男" Row="6" Col="8" IsBoarding="False" IsVisibility="True" />
+    <Student Name="张智鹏" Sex="男" Row="4" Col="1" IsBoarding="True" IsVisibility="True" />
+    <Student Name="郑振辉" Sex="男" Row="1" Col="7" IsBoarding="True" IsVisibility="True" />
+    <Student Name="钟晟" Sex="男" Row="4" Col="3" IsBoarding="True" IsVisibility="True" />
+    <Student Name="钟心悦" Sex="女" Row="1" Col="8" IsBoarding="False" IsVisibility="True" />
+    <Student Name="陈飞帆" Sex="女" Row="1" Col="3" IsBoarding="True" IsVisibility="True" />
   </Students>
-  <Songs>
+  <Songs SpecialId="24">
+    <Song Name="Chance" Autor="" IsVisibility="True" />
+    <Song Name="打上花火" Autor="" IsVisibility="True" />
+    <Song Name="Trip" Autor="J* " IsVisibility="True" />
+    <Song Name="匆匆那年" Autor="黄奇菲 " IsVisibility="False" />
+    <Song Name="beat it" Autor="Michael Jackson" IsVisibility="True" />
+    <Song Name="可可托海的牧羊人" Autor="" IsVisibility="True" />
+    <Song Name="必杀技" Autor="" IsVisibility="True" />
+    <Song Name="够钟" Autor="" IsVisibility="False" />
+    <Song Name="十七岁" Autor="" IsVisibility="False" />
+    <Song Name="蜚蜚" Autor="" IsVisibility="True" />
+    <Song Name="One Last Time" Autor="" IsVisibility="True" />
+    <Song Name="Call it what you want" Autor="" IsVisibility="True" />
+    <Song Name="See you again" Autor="" IsVisibility="True" />
+    <Song Name="popular" Autor="The weekend" IsVisibility="False" />
+    <Song Name="run away" Autor="Kanye west" IsVisibility="False" />
+    <Song Name="春雷" Autor="米津玄师" IsVisibility="False" />
+    <Song Name="Live my life" Autor="aespa" IsVisibility="True" />
+    <Song Name="冬日" Autor="鞠婧祎" IsVisibility="True" />
+    <Song Name="Happy!" Autor="" IsVisibility="True" />
+    <Song Name="晴天" Autor="周杰伦" IsVisibility="True" />
+    <Song Name="极光入夜" Autor="*车厘子*" IsVisibility="False" />
+    <Song Name="国道217" Autor="" IsVisibility="False" />
+    <Song Name="壁上观" Autor="鞠婧祎" IsVisibility="True" />
+    <Song Name="小诗句" Autor="" IsVisibility="True" />
+    <Song Name="trouble maker" Autor="" IsVisibility="False" />
+    <Song Name="baby don't cry" Autor="exo" IsVisibility="True" />
+    <Song Name="Friting Day" Autor="鞠婧祎" IsVisibility="False" />
+    <Song Name="光" Autor="陈粒" IsVisibility="False" />
+    <Song Name="nop" Autor="陈越龙" IsVisibility="True" />
+    <Song Name="Call me by your name" Autor="" IsVisibility="False" />
+    <Song Name="The way I still Love you" Autor="" IsVisibility="False" />
+    <Song Name="Counting Stars" Autor="" IsVisibility="True" />
+    <Song Name="something just like this" Autor="" IsVisibility="False" />
+    <Song Name="Something Just Like This" Autor="" IsVisibility="False" />
+    <Song Name="Talking to the moon" Autor="" IsVisibility="False" />
+    <Song Name="Always online" Autor="林俊杰" IsVisibility="False" />
+    <Song Name="悬溺" Autor="" IsVisibility="True" />
+    <Song Name="人狂热症" Autor="重音ラト" IsVisibility="True" />
+    <Song Name="切下吧继续" Autor="初音未来" IsVisibility="False" />
+    <Song Name="My Soul（纯音乐）" Autor="" IsVisibility="False" />
+    <Song Name="风华正茂（纯音乐）" Autor="" IsVisibility="False" />
+    <Song Name="若能化作星座" Autor="结束乐队" IsVisibility="True" />
+    <Song Name="命运之花" Autor="有刺无刺" IsVisibility="False" />
+    <Song Name="太聪明" Autor="*=&gt;女" IsVisibility="True" />
+    <Song Name="Because of you" Autor="" IsVisibility="True" />
+    <Song Name="lemon" Autor="米津玄师" IsVisibility="False" />
+    <Song Name="Take me hand" Autor="" IsVisibility="False" />
+    <Song Name="樱花树下" Autor="张敬轩" IsVisibility="False" />
+    <Song Name="鸟之源" Autor="" IsVisibility="False" />
+    <Song Name="Wonderful U" Autor="AGA" IsVisibility="False" />
+    <Song Name="吹梦到西洲" Autor="黄诗扶" IsVisibility="True" />
+    <Song Name="云烟成雨" Autor="" IsVisibility="False" />
+    <Song Name="昨日青空" Autor="" IsVisibility="False" />
+    <Song Name="后来我们的爱" Autor="" IsVisibility="False" />
+    <Song Name="阿房宫赋" Autor="奇然、沈溢仁" IsVisibility="False" />
+    <Song Name="桃花源记" Autor="" IsVisibility="True" />
+    <Song Name="琵琶行" Autor="" IsVisibility="False" />
+    <Song Name="再次与你同行" Autor="" IsVisibility="True" />
+    <Song Name="Once upon a time" Autor="" IsVisibility="False" />
+    <Song Name="Opr" Autor="" IsVisibility="False" />
+    <Song Name="青花" Autor="周传雄" IsVisibility="False" />
+    <Song Name="在银河中孤独摇滚" Autor="知更鸟" IsVisibility="False" />
+    <Song Name="使一颗心免于哀伤" Autor="知更鸟" IsVisibility="True" />
+    <Song Name="苦瓜" Autor="陈奕迅" IsVisibility="False" />
+    <Song Name="《英雄》20" Autor="奈克碧斯奥特曼" IsVisibility="False" />
+    <Song Name="*=&gt;null" Autor="" IsVisibility="True" />
+    <Song Name="Secret base~君かくれたお~" Autor="" IsVisibility="False" />
+    <Song Name="something like that" Autor="宁艺卓" IsVisibility="True" />
+    <Song Name="be natural" Autor="宁艺卓" IsVisibility="True" />
+    <Song Name="Rosee and Rachel" Autor="Jake Miller" IsVisibility="False" />
+    <Song Name="雾里" Autor="" IsVisibility="True" />
+    <Song Name="only look at me" Autor="rose" IsVisibility="False" />
+    <Song Name="cry for me" Autor="" IsVisibility="True" />
+    <Song Name="DUVET" Autor="" IsVisibility="False" />
+    <Song Name="what do you mean" Autor="Justin Bieber" IsVisibility="True" />
+    <Song Name="阿嬷（爱国版） or 赐我" Autor="周林枫 or null" IsVisibility="False" />
+    <Song Name="孤雏" Autor="" IsVisibility="False" />
+    <Song Name="葡萄成熟时" Autor="" IsVisibility="True" />
+    <Song Name="迷宫" Autor="" IsVisibility="False" />
+    <Song Name="晚星" Autor="" IsVisibility="True" />
+    <Song Name="Fallin" Autor="" IsVisibility="True" />
+    <Song Name="time machine" Autor="" IsVisibility="True" />
+    <Song Name="恋爱循环" Autor="" IsVisibility="True" />
+    <Song Name="钟无艳" Autor="" IsVisibility="True" />
+    <Song Name="吴哥窟" Autor="" IsVisibility="True" />
   </Songs>
 </AppData>

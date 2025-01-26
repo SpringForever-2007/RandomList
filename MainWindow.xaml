@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomList"
         mc:Ignorable="d"
-        Title="RandomList 随机列表" Height="450" Width="800" Closed="Window_Closed" Background="WhiteSmoke">
+        Title="RandomList 随机列表" Height="600" Width="800" Closed="Window_Closed" Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

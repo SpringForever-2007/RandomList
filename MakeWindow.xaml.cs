@@ -24,6 +24,7 @@ namespace RandomList
         {
             this.students = students;
             InitializeComponent();
+            Topmost = true;
             SexComboBox.SelectedIndex = 2;
             BoardComboBox.SelectedIndex = 2;
             MinTextBox.Text = Min(students).ToString();

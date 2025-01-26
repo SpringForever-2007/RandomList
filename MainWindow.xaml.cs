@@ -71,7 +71,7 @@ namespace RandomList
 
     public class Song
     {
-        public Song(uint id,string name,string autor,bool isvisibility)
+        public Song(uint id, string name, string autor, bool isvisibility)
         {
             Id = id;
             Name = name;
@@ -147,8 +147,9 @@ namespace RandomList
                 writer.WriteEndElement(); // Students
 
                 writer.WriteStartElement("Songs");
+                writer.WriteAttributeString("SpecialId", specialsongid.ToString());
 
-                foreach(var song in songs)
+                foreach (var song in songs)
                 {
                     writer.WriteStartElement("Song");
                     writer.WriteAttributeString("Name", song.Name);
@@ -186,14 +187,19 @@ namespace RandomList
                         students.Add(student);
                         studentindex++;
                     }
-                    else if(xmlReader.IsStartElement()&&xmlReader.Name=="Song")
+                    else if (xmlReader.IsStartElement() && xmlReader.Name == "Song")
                     {
                         Song song = new();
                         song.Id = songindex;
                         song.Name = xmlReader["Name"];
                         song.Autor = xmlReader["Autor"];
+                        song.IsVisibility = bool.Parse(xmlReader["IsVisibility"]);
                         songs.Add(song);
                         songindex++;
+                    }
+                    else if (xmlReader.IsStartElement() && xmlReader.Name == "Songs")
+                    {
+                        specialsongid = uint.Parse(xmlReader["SpecialId"]);
                     }
                 }
             }
@@ -201,6 +207,7 @@ namespace RandomList
 
         private List<Student> students = new();
         private List<Song> songs = new();
+        private uint specialsongid = 0;
         private static readonly string AppDataPath = ".\\AppData.xml";
 
         private void Window_Closed(object sender, EventArgs e)
@@ -211,16 +218,16 @@ namespace RandomList
         private void MakeButton_Click(object sender, RoutedEventArgs e)
         {
             SelectDialog dlg = new(new string[] { "随机点名", "随机点歌" });
-            if(dlg.DialogResult==true)
+            if (dlg.DialogResult == true)
             {
-                if(dlg.SelectIndex==0)
+                if (dlg.SelectIndex == 0)
                 {
                     MakeWindow wnd = new MakeWindow(students);
                     wnd.ShowDialog();
                 }
-                else if(dlg.SelectIndex==1)
+                else if (dlg.SelectIndex == 1)
                 {
-                    MakeRandomSongWindow wnd = new(songs);
+                    MakeRandomSongWindow wnd = new(songs, specialsongid);
                     wnd.ShowDialog();
                     SongsList.ItemsSource = null;
                     SongsList.ItemsSource = songs;
@@ -231,7 +238,7 @@ namespace RandomList
         private void AddItemMenuItemClick(object sender, RoutedEventArgs e)
         {
             EditItemWindow wnd = new EditItemWindow((uint)students.Count + 1);
-            if(wnd.DialogResult==true)
+            if (wnd.DialogResult == true)
             {
                 students.Add(wnd.Result);
                 UpdateStudentsList();
@@ -240,13 +247,13 @@ namespace RandomList
 
         private void ResetItemMenuItemClick(object sender, RoutedEventArgs e)
         {
-            int select=StudentsList.SelectedIndex;
-            if(select>=0)
+            int select = StudentsList.SelectedIndex;
+            if (select >= 0)
             {
-                EditItemWindow wnd=new EditItemWindow(students[select]);
-                if(wnd.DialogResult==true)
+                EditItemWindow wnd = new EditItemWindow(students[select]);
+                if (wnd.DialogResult == true)
                 {
-                    students[select]=wnd.Result;
+                    students[select] = wnd.Result;
                     UpdateStudentsList();
                 }
             }
@@ -255,12 +262,15 @@ namespace RandomList
         private void RemoveItemMenuItemCkick(object sender, RoutedEventArgs e)
         {
             int select = StudentsList.SelectedIndex;
-            if(select>=0)
+            if (select >= 0)
             {
-                students.Remove(students[select]);
-                for (int i = 0; i < students.Count; i++)
-                    students[i].Id = (uint)i + 1;
-                UpdateStudentsList();
+                if (MessageBox.Show($"是否删除{students[select].Name}同学？", "询问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    students.Remove(students[select]);
+                    for (int i = 0; i < students.Count; i++)
+                        students[i].Id = (uint)i + 1;
+                    UpdateStudentsList();
+                }
             }
         }
 
@@ -281,9 +291,12 @@ namespace RandomList
 
         private void ResetAllMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach(var student in students)
-                student.IsVisibility = true;
-            UpdateStudentsList();
+            if (MessageBox.Show("是否还原全部可选？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                foreach (var student in students)
+                    student.IsVisibility = true;
+                UpdateStudentsList();
+            }
         }
 
         private void StudentsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -300,14 +313,14 @@ namespace RandomList
             }
         }
 
-        public static void CreateExcelLine(int rowindex,ISheet sheet,params string[] lines)
+        public static void CreateExcelLine(int rowindex, ISheet sheet, params string[] lines)
         {
-            if(sheet!=null)
+            if (sheet != null)
             {
                 IRow row = sheet.CreateRow(rowindex);
                 int colindex = 0;
                 ICell cell;
-                foreach(var line in lines)
+                foreach (var line in lines)
                 {
                     cell = row.CreateCell(colindex);
                     cell.SetCellValue(line);
@@ -320,41 +333,41 @@ namespace RandomList
         {
             string[] p = { "导出为文本文件", "导出为电子表格" };
             SelectDialog dlg = new(p);
-            if(dlg.DialogResult == true)
+            if (dlg.DialogResult == true)
             {
-                if(dlg.SelectIndex == 0)
+                if (dlg.SelectIndex == 0)
                 {
                     SaveFileDialog sdlg = new();
                     sdlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     sdlg.Title = "导出";
                     sdlg.Filter = "文本文件(*.txt)|*.txt|所有类型(*.*)|*.*";
-                    if(sdlg.ShowDialog()==true)
+                    if (sdlg.ShowDialog() == true)
                     {
-                        using(FileStream fs=File.Create(sdlg.FileName))
+                        using (FileStream fs = File.Create(sdlg.FileName))
                         {
-                            foreach(var student in students)
+                            foreach (var student in students)
                                 fs.Write(Encoding.UTF8.GetBytes(MakeWindow.ShowStudent(student)));
                             fs.Write(Encoding.UTF8.GetBytes("\n"));
-                            foreach(var song in songs)
+                            foreach (var song in songs)
                                 fs.Write(Encoding.UTF8.GetBytes(MakeRandomSongWindow.ShowSong(song)));
                         }
                     }
                 }
-                else if(dlg.SelectIndex == 1)
+                else if (dlg.SelectIndex == 1)
                 {
                     SaveFileDialog sdlg = new();
                     sdlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     sdlg.Title = "导出";
                     sdlg.Filter = "2007+电子表格(*.xlsx)|*.xlsx|2007-电子表格(*.xls)|*.xls|所有类型(*.*)|*.*";
-                    if(sdlg.ShowDialog()==true)
+                    if (sdlg.ShowDialog() == true)
                     {
                         IWorkbook workBook;
-                        if(sdlg.FilterIndex==0)
+                        if (sdlg.FilterIndex == 0)
                             workBook = new XSSFWorkbook();
-                        else workBook=new HSSFWorkbook();
+                        else workBook = new HSSFWorkbook();
                         ISheet sheet1 = workBook.CreateSheet("学生信息表");
-                        CreateExcelLine(0,sheet1,new string[]{"姓名","座号","性别","座位","是否住宿"});
-                        int count1 = 0,count2 = 0;
+                        CreateExcelLine(0, sheet1, new string[] { "姓名", "座号", "性别", "座位", "是否住宿" });
+                        int count1 = 0, count2 = 0;
                         foreach (var student in students)
                             CreateExcelLine(++count1, sheet1, new string[] { student.Name, student.Id.ToString(), student.Sex, student.Position, student.IsBoarding.ToString() });
                         ISheet sheet2 = workBook.CreateSheet("歌单");
@@ -370,8 +383,8 @@ namespace RandomList
 
         private void AddSongMenuItemClick(object sender, RoutedEventArgs e)
         {
-            EditSongWindow wnd = new((uint)songs.Count+1);
-            if(wnd.DialogResult==true)
+            EditSongWindow wnd = new((uint)songs.Count + 1);
+            if (wnd.DialogResult == true)
             {
                 songs.Add(wnd.Result);
                 UpdateSongsList();
@@ -381,7 +394,7 @@ namespace RandomList
         private void ResetSongMenuItemClick(object sender, RoutedEventArgs e)
         {
             int index = SongsList.SelectedIndex;
-            if(index>=0)
+            if (index >= 0)
             {
                 EditSongWindow wnd = new(songs[index]);
                 if (wnd.DialogResult == true)
@@ -397,8 +410,13 @@ namespace RandomList
             int index = SongsList.SelectedIndex;
             if (index >= 0)
             {
-                songs.RemoveAt(index);
-                UpdateSongsList();
+                if (MessageBox.Show($"是否删除{songs[index].Name}歌曲？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    songs.RemoveAt(index);
+                    for (int i = 0; i < songs.Count; i++)
+                        songs[i].Id = (uint)i + 1;
+                    UpdateSongsList();
+                }
             }
         }
 
@@ -414,20 +432,23 @@ namespace RandomList
 
         private void ResetAllSongsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var s in songs)
-                s.IsVisibility = true;
-            UpdateSongsList();
+            if (MessageBox.Show("是否还原全部可选？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                foreach (var s in songs)
+                    s.IsVisibility = true;
+                UpdateSongsList();
+            }
         }
 
         private void SongsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int index = SongsList.SelectedIndex;
-            if(index >= 0)
+            if (index >= 0)
             {
                 EditSongWindow wnd = new(songs[index]);
-                if(wnd.DialogResult == true)
+                if (wnd.DialogResult == true)
                 {
-                    songs[index]= wnd.Result;
+                    songs[index] = wnd.Result;
                     UpdateSongsList();
                 }
             }
@@ -435,9 +456,9 @@ namespace RandomList
 
         private void FindItemButton_Click(object sender, RoutedEventArgs e)
         {
-            while(true)
+            while (true)
             {
-                Again:
+            Again:
                 SelectDialog dlg1 = new(new string[] { "在学生列表中查找", "在歌单中查找" });
                 if (dlg1.DialogResult == true)
                 {
@@ -553,11 +574,11 @@ namespace RandomList
 
         private void InsertMenuItemClick(object sender, RoutedEventArgs e)
         {
-            int select=StudentsList.SelectedIndex;
-            if(select>=0)
+            int select = StudentsList.SelectedIndex;
+            if (select >= 0)
             {
                 EditItemWindow wnd = new((uint)select + 2);
-                if(wnd.DialogResult==true)
+                if (wnd.DialogResult == true)
                 {
                     students.Insert(select + 1, wnd.Result);
                     for (int i = 0; i < students.Count; i++)
