@@ -17,7 +17,7 @@ namespace RandomList
 
         public void Exchange(ref int max, ref int min)
         {
-            if (max<min)
+            if (max < min)
             {
                 int tmp = max;
                 max = min;
@@ -43,6 +43,21 @@ namespace RandomList
             }
 
             uniqueNumbers.CopyTo(randomNumbers);
+            return randomNumbers;
+        }
+
+        public int[] Make(int length, int min, int max)
+        {
+            Exchange(ref max, ref min);
+            if (length > (max - min))
+            {
+                return null;
+            }
+            int[] randomNumbers = new int[length];
+            for (int i = 0; i < length; i++)
+            {
+                randomNumbers[i] = random.Next(min, max);
+            }
             return randomNumbers;
         }
     }

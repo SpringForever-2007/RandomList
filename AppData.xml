@@ -1,7 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <AppData>
   <Students>
+    <Student Name="张三" Sex="男" IsVisible="True" />
   </Students>
   <Songs>
+    <Song Name="歌曲" Autor="歌手" IsVisible="True"/>
   </Songs>
 </AppData>

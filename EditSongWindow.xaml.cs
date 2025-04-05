@@ -19,7 +19,7 @@ namespace RandomList
     /// </summary>
     public partial class EditSongWindow : Window
     {
-        public EditSongWindow(uint id)
+        public EditSongWindow(int id)
         {
             InitializeComponent();
             Result = new();

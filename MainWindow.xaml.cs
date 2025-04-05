@@ -14,69 +14,41 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
-using NPOI.XSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.HSSF.UserModel;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using System.Data;
 
 namespace RandomList
 {
     public class Student
     {
-        public Student() { }
-        public Student(uint id, string name, bool sex, uint row, uint col, bool isboarding, bool isvisibility)
-        {
-            Id = id;
-            Name = name;
-            Sex = sex ? "男" : "女";
-            Row = row;
-            Col = col;
-            IsBoarding = isboarding;
-            IsVisibility = isvisibility;
-        }
-
-        public uint Id { get; set; }
-
         public string Name { get; set; }
+
+        public int Id { get; set; }
+
+        public bool IsVisible { get; set; }
 
         public string Sex { get; set; }
 
-        private uint _row;
-        public uint Row
+        public Student()
         {
-            get => _row;
-            set
-            {
-                _row = value;
-                Position = $"{_row}行 {_col}列";
-            }
         }
 
-        private uint _col;
-        public uint Col
+        public override string ToString()
         {
-            get => _col;
-            set
-            {
-                _col = value;
-                Position = $"{_row}行 {_col}列";
-            }
+            return $"座号：{Id}\t姓名：{Name}\t性别：{Sex}\t是否可选：{IsVisible}";
         }
-        public string Position { get; private set; } = "未知位置";
-        public bool IsBoarding { get; set; }
-        public bool IsVisibility { get; set; }
     }
 
 
     public class Song
     {
-        public Song(uint id,string name,string autor,bool isvisibility)
+        public Song(int id, string name, string autor, bool IsVisible)
         {
             Id = id;
             Name = name;
             Autor = autor;
-            IsVisibility = isvisibility;
+            this.IsVisible = IsVisible;
         }
 
         public Song()
@@ -84,13 +56,13 @@ namespace RandomList
             Id = 0;
             Name = "";
             Autor = "";
-            IsVisibility = true;
+            IsVisible = true;
         }
 
-        public uint Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Autor { get; set; }
-        public bool IsVisibility { get; set; }
+        public bool IsVisible { get; set; }
     }
 
     /// <summary>
@@ -118,120 +90,149 @@ namespace RandomList
             SongsList.ItemsSource = songs;
         }
 
-        public void Save()
+        public void Save(XmlWriter writer)
         {
-            XmlWriterSettings settings = new XmlWriterSettings
+            try
             {
-                Indent = true,
-                Encoding = Encoding.UTF8
-            };
+                XmlWriterSettings settings = new XmlWriterSettings
+                {
+                    Indent = true,
+                    Encoding = Encoding.UTF8
+                };
 
-            using (XmlWriter writer = XmlWriter.Create(AppDataPath, settings))
+                using (writer)
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("AppData");
+                    writer.WriteStartElement("Students");
+
+                    foreach (var student in students)
+                    {
+                        writer.WriteStartElement("Student");
+                        writer.WriteAttributeString("Name", student.Name);
+                        writer.WriteAttributeString("Sex", student.Sex);
+                        writer.WriteAttributeString("IsVisible", student.IsVisible.ToString());
+                        writer.WriteEndElement(); // Student
+                    }
+
+                    writer.WriteEndElement(); // Students
+
+                    writer.WriteStartElement("Songs");
+
+                    foreach (var song in songs)
+                    {
+                        writer.WriteStartElement("Song");
+                        writer.WriteAttributeString("Name", song.Name);
+                        writer.WriteAttributeString("Autor", song.Autor);
+                        writer.WriteAttributeString("IsVisible", song.IsVisible.ToString());
+                        writer.WriteEndElement(); // Song
+                    }
+
+                    writer.WriteEndElement(); // Songs
+
+                    writer.WriteEndElement(); // AppData
+                    writer.WriteEndDocument();
+                }
+            }
+            catch (Exception ex)
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("AppData");
-                writer.WriteStartElement("Students");
-
-                foreach (var student in students)
-                {
-                    writer.WriteStartElement("Student");
-                    writer.WriteAttributeString("Name", student.Name);
-                    writer.WriteAttributeString("Sex", student.Sex);
-                    writer.WriteAttributeString("Row", student.Row.ToString());
-                    writer.WriteAttributeString("Col", student.Col.ToString());
-                    writer.WriteAttributeString("IsBoarding", student.IsBoarding.ToString());
-                    writer.WriteAttributeString("IsVisibility", student.IsVisibility.ToString());
-                    writer.WriteEndElement(); // Student
-                }
-
-                writer.WriteEndElement(); // Students
-
-                writer.WriteStartElement("Songs");
-
-                foreach(var song in songs)
-                {
-                    writer.WriteStartElement("Song");
-                    writer.WriteAttributeString("Name", song.Name);
-                    writer.WriteAttributeString("Autor", song.Autor);
-                    writer.WriteAttributeString("IsVisibility", song.IsVisibility.ToString());
-                    writer.WriteEndElement(); // Song
-                }
-
-                writer.WriteEndElement(); // Songs
-
-                writer.WriteEndElement(); // AppData
-                writer.WriteEndDocument();
+                MessageBox.Show($"无法保存配置，您可能需要把软件安装在非系统盘：{ex.Message}");
             }
         }
 
-        public void Load()
+        public void Load(string AppDataPath = AppDataPath)
         {
-            using (XmlReader xmlReader = XmlReader.Create(AppDataPath))
+            try
             {
-                uint studentindex = 1, songindex = 01;
-                while (xmlReader.Read())
+                using (XmlReader xmlReader = XmlReader.Create(AppDataPath))
                 {
-                    if (xmlReader.IsStartElement() && xmlReader.Name == "Student")
+                    int studentindex = 1, songindex = 01;
+                    while (xmlReader.Read())
                     {
-                        Student student = new Student
+                        if (xmlReader.IsStartElement() && xmlReader.Name == "Student")
                         {
-                            Id = studentindex,
-                            Name = xmlReader["Name"],
-                            Sex = xmlReader["Sex"],
-                            Row = uint.Parse(xmlReader["Row"]),
-                            Col = uint.Parse(xmlReader["Col"]),
-                            IsBoarding = bool.Parse(xmlReader["IsBoarding"]),
-                            IsVisibility = bool.Parse(xmlReader["IsVisibility"])
-                        };
-                        students.Add(student);
-                        studentindex++;
-                    }
-                    else if(xmlReader.IsStartElement()&&xmlReader.Name=="Song")
-                    {
-                        Song song = new();
-                        song.Id = songindex;
-                        song.Name = xmlReader["Name"];
-                        song.Autor = xmlReader["Autor"];
-                        songs.Add(song);
-                        songindex++;
+                            Student student = new Student
+                            {
+                                Id = studentindex,
+                                Name = xmlReader["Name"],
+                                Sex = xmlReader["Sex"],
+                                IsVisible = bool.Parse(xmlReader["IsVisible"])
+                            };
+                            students.Add(student);
+                            studentindex++;
+                        }
+                        else if (xmlReader.IsStartElement() && xmlReader.Name == "Song")
+                        {
+                            Song song = new();
+                            song.Id = songindex;
+                            song.Name = xmlReader["Name"];
+                            song.Autor = xmlReader["Autor"];
+                            song.IsVisible = bool.Parse(xmlReader["IsVisible"]);
+                            songs.Add(song);
+                            songindex++;
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"无法加载配置，您可能需要把软件安装在非系统盘：{ex.Message}");
             }
         }
 
         private List<Student> students = new();
         private List<Song> songs = new();
-        private static readonly string AppDataPath = ".\\AppData.xml";
+        private const string AppDataPath = ".\\AppData.xml";
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Save();
+            XmlWriterSettings settings = new();
+            settings.Indent = true;
+            settings.Encoding = Encoding.UTF8;
+            XmlWriter writer = XmlWriter.Create(AppDataPath, settings);
+            Save(writer);
         }
 
         private void MakeButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectDialog dlg = new(new string[] { "随机点名", "随机点歌" });
-            if(dlg.DialogResult==true)
+            SelectDialog dlg = new(["随机点名", "随机点歌"]);
+            if (dlg.DialogResult == true)
             {
-                if(dlg.SelectIndex==0)
+                if (dlg.SelectIndex == 0)
                 {
-                    MakeWindow wnd = new MakeWindow(students);
-                    wnd.ShowDialog();
+                    if(students.Count>0)
+                    {
+                        MakeWindow wnd = new MakeWindow(students);
+                        wnd.ShowDialog();
+                        UpdateStudentsList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("学生列表为空");
+                        return;
+                    }
                 }
-                else if(dlg.SelectIndex==1)
+                else if (dlg.SelectIndex == 1)
                 {
-                    MakeRandomSongWindow wnd = new(songs);
-                    wnd.ShowDialog();
-                    SongsList.ItemsSource = null;
-                    SongsList.ItemsSource = songs;
+                    if (songs.Count>0)
+                    {
+                        MakeRandomSongWindow wnd = new(songs);
+                        wnd.ShowDialog();
+                        UpdateSongsList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("歌单列表为空");
+                        return;
+                    }
                 }
             }
         }
 
         private void AddItemMenuItemClick(object sender, RoutedEventArgs e)
         {
-            EditItemWindow wnd = new EditItemWindow((uint)students.Count + 1);
-            if(wnd.DialogResult==true)
+            EditItemWindow wnd = new EditItemWindow(students.Count + 1);
+            if (wnd.DialogResult == true)
             {
                 students.Add(wnd.Result);
                 UpdateStudentsList();
@@ -240,13 +241,13 @@ namespace RandomList
 
         private void ResetItemMenuItemClick(object sender, RoutedEventArgs e)
         {
-            int select=StudentsList.SelectedIndex;
-            if(select>=0)
+            int select = StudentsList.SelectedIndex;
+            if (select >= 0)
             {
-                EditItemWindow wnd=new EditItemWindow(students[select]);
-                if(wnd.DialogResult==true)
+                EditItemWindow wnd = new EditItemWindow(students[select]);
+                if (wnd.DialogResult == true)
                 {
-                    students[select]=wnd.Result;
+                    students[select] = wnd.Result;
                     UpdateStudentsList();
                 }
             }
@@ -255,12 +256,15 @@ namespace RandomList
         private void RemoveItemMenuItemCkick(object sender, RoutedEventArgs e)
         {
             int select = StudentsList.SelectedIndex;
-            if(select>=0)
+            if (select >= 0)
             {
-                students.Remove(students[select]);
-                for (int i = 0; i < students.Count; i++)
-                    students[i].Id = (uint)i + 1;
-                UpdateStudentsList();
+                if (MessageBox.Show($"是否删除{students[select].Name}同学？", "询问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    students.Remove(students[select]);
+                    for (int i = 0; i < students.Count; i++)
+                        students[i].Id = i + 1;
+                    UpdateStudentsList();
+                }
             }
         }
 
@@ -274,16 +278,19 @@ namespace RandomList
             int select = StudentsList.SelectedIndex;
             if (select >= 0)
             {
-                students[select].IsVisibility = !students[select].IsVisibility;
+                students[select].IsVisible = !students[select].IsVisible;
                 UpdateStudentsList();
             }
         }
 
         private void ResetAllMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach(var student in students)
-                student.IsVisibility = true;
-            UpdateStudentsList();
+            if (MessageBox.Show("是否还原全部可选？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                foreach (var student in students)
+                    student.IsVisible = true;
+                UpdateStudentsList();
+            }
         }
 
         private void StudentsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -300,69 +307,54 @@ namespace RandomList
             }
         }
 
-        public static void CreateExcelLine(int rowindex,ISheet sheet,params string[] lines)
-        {
-            if(sheet!=null)
-            {
-                IRow row = sheet.CreateRow(rowindex);
-                int colindex = 0;
-                ICell cell;
-                foreach(var line in lines)
-                {
-                    cell = row.CreateCell(colindex);
-                    cell.SetCellValue(line);
-                    colindex++;
-                }
-            }
-        }
-
         private void OutputButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] p = { "导出为文本文件", "导出为电子表格" };
+            string[] p = { "导出为配置文件", "导出为csv学生名单", "导出为csv歌单" };
             SelectDialog dlg = new(p);
-            if(dlg.DialogResult == true)
+            if (dlg.DialogResult == true)
             {
-                if(dlg.SelectIndex == 0)
+                if (dlg.SelectIndex == 0)
                 {
                     SaveFileDialog sdlg = new();
                     sdlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     sdlg.Title = "导出";
-                    sdlg.Filter = "文本文件(*.txt)|*.txt|所有类型(*.*)|*.*";
-                    if(sdlg.ShowDialog()==true)
+                    sdlg.Filter = "配置文件|*.xml|文本文件|*.txt";
+                    if (sdlg.ShowDialog() == true)
                     {
-                        using(FileStream fs=File.Create(sdlg.FileName))
-                        {
-                            foreach(var student in students)
-                                fs.Write(Encoding.UTF8.GetBytes(MakeWindow.ShowStudent(student)));
-                            fs.Write(Encoding.UTF8.GetBytes("\n"));
-                            foreach(var song in songs)
-                                fs.Write(Encoding.UTF8.GetBytes(MakeRandomSongWindow.ShowSong(song)));
-                        }
+                        XmlWriterSettings settings = new();
+                        settings.Indent = true;
+                        settings.Encoding = Encoding.UTF8;
+                        XmlWriter writer = XmlWriter.Create(sdlg.FileName, settings);
+                        Save(writer);
                     }
                 }
-                else if(dlg.SelectIndex == 1)
+                else if (dlg.SelectIndex == 1)
                 {
                     SaveFileDialog sdlg = new();
-                    sdlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     sdlg.Title = "导出";
-                    sdlg.Filter = "2007+电子表格(*.xlsx)|*.xlsx|2007-电子表格(*.xls)|*.xls|所有类型(*.*)|*.*";
-                    if(sdlg.ShowDialog()==true)
+                    sdlg.Filter = "csv文件|*.csv|文本文件|*.txt";
+                    if (sdlg.ShowDialog()==true)
                     {
-                        IWorkbook workBook;
-                        if(sdlg.FilterIndex==0)
-                            workBook = new XSSFWorkbook();
-                        else workBook=new HSSFWorkbook();
-                        ISheet sheet1 = workBook.CreateSheet("学生信息表");
-                        CreateExcelLine(0,sheet1,new string[]{"姓名","座号","性别","座位","是否住宿"});
-                        int count1 = 0,count2 = 0;
+                        string data = "姓名,性别";
                         foreach (var student in students)
-                            CreateExcelLine(++count1, sheet1, new string[] { student.Name, student.Id.ToString(), student.Sex, student.Position, student.IsBoarding.ToString() });
-                        ISheet sheet2 = workBook.CreateSheet("歌单");
-                        CreateExcelLine(0, sheet2, new string[] { "序号", "歌名", "歌手", "是否可选" });
+                            data += $"{student.Name},{student.Sex}\n";
+                        var bytes = Encoding.UTF8.GetBytes(data);
+                        File.WriteAllBytes(sdlg.FileName, bytes);
+                    }
+                }
+                else if(dlg.SelectIndex == 2)
+                {
+                    SaveFileDialog sdlg = new();
+                    sdlg.Title = "导出";
+                    sdlg.Filter = "csv文件|*.csv|文本文件|*.txt";
+                    sdlg.ShowDialog();
+                    if (sdlg.ShowDialog() == true)
+                    {
+                        string data = "歌名,歌手";
                         foreach (var song in songs)
-                            CreateExcelLine(++count2, sheet2, new string[] { song.Id.ToString(), song.Name, song.Autor, song.IsVisibility.ToString() });
-                        using (FileStream fs = File.Create(sdlg.FileName))
-                            workBook.Write(fs);
+                            data += $"{song.Name},{song.Autor}\n";
+                        var bytes = Encoding.UTF8.GetBytes(data);
+                        File.WriteAllBytes(sdlg.FileName, bytes);
                     }
                 }
             }
@@ -370,8 +362,8 @@ namespace RandomList
 
         private void AddSongMenuItemClick(object sender, RoutedEventArgs e)
         {
-            EditSongWindow wnd = new((uint)songs.Count+1);
-            if(wnd.DialogResult==true)
+            EditSongWindow wnd = new(songs.Count + 1);
+            if (wnd.DialogResult == true)
             {
                 songs.Add(wnd.Result);
                 UpdateSongsList();
@@ -381,7 +373,7 @@ namespace RandomList
         private void ResetSongMenuItemClick(object sender, RoutedEventArgs e)
         {
             int index = SongsList.SelectedIndex;
-            if(index>=0)
+            if (index >= 0)
             {
                 EditSongWindow wnd = new(songs[index]);
                 if (wnd.DialogResult == true)
@@ -397,8 +389,13 @@ namespace RandomList
             int index = SongsList.SelectedIndex;
             if (index >= 0)
             {
-                songs.RemoveAt(index);
-                UpdateSongsList();
+                if (MessageBox.Show($"是否删除{songs[index].Name}歌曲？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    songs.RemoveAt(index);
+                    for (int i = 0; i < songs.Count; i++)
+                        songs[i].Id = i + 1;
+                    UpdateSongsList();
+                }
             }
         }
 
@@ -407,27 +404,30 @@ namespace RandomList
             int index = SongsList.SelectedIndex;
             if (index >= 0)
             {
-                songs[index].IsVisibility = !songs[index].IsVisibility;
+                songs[index].IsVisible = !songs[index].IsVisible;
                 UpdateSongsList();
             }
         }
 
         private void ResetAllSongsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var s in songs)
-                s.IsVisibility = true;
-            UpdateSongsList();
+            if (MessageBox.Show("是否还原全部可选？", "提问", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                foreach (var s in songs)
+                    s.IsVisible = true;
+                UpdateSongsList();
+            }
         }
 
         private void SongsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int index = SongsList.SelectedIndex;
-            if(index >= 0)
+            if (index >= 0)
             {
                 EditSongWindow wnd = new(songs[index]);
-                if(wnd.DialogResult == true)
+                if (wnd.DialogResult == true)
                 {
-                    songs[index]= wnd.Result;
+                    songs[index] = wnd.Result;
                     UpdateSongsList();
                 }
             }
@@ -435,15 +435,15 @@ namespace RandomList
 
         private void FindItemButton_Click(object sender, RoutedEventArgs e)
         {
-            while(true)
+            while (true)
             {
-                Again:
-                SelectDialog dlg1 = new(new string[] { "在学生列表中查找", "在歌单中查找" });
+            Again:
+                SelectDialog dlg1 = new(["在学生列表中查找", "在歌单中查找"]);
                 if (dlg1.DialogResult == true)
                 {
                     if (dlg1.SelectIndex == 0)
                     {
-                        SelectDialog dlg2 = new(new string[] { "根据姓名", "根据座号", "根据位置" });
+                        SelectDialog dlg2 = new(["根据姓名", "根据座号"]);
                         if (dlg2.DialogResult == true)
                         {
                             switch (dlg2.SelectIndex)
@@ -468,7 +468,7 @@ namespace RandomList
                                 case 1:
                                     {
                                         string idstr = Interaction.InputBox("座号", "输入");
-                                        if (idstr != null && uint.TryParse(idstr, out var res))
+                                        if (idstr != null && int.TryParse(idstr, out var res))
                                         {
                                             foreach (var student in students)
                                             {
@@ -482,39 +482,18 @@ namespace RandomList
                                         }
                                         break;
                                     }
-                                case 2:
-                                    {
-                                        string colstr = Interaction.InputBox("座位列", "输入");
-                                        if (colstr != null && uint.TryParse(colstr, out var col))
-                                        {
-                                            string rowstr = Interaction.InputBox("座位行", "输入");
-                                            if (rowstr != null && uint.TryParse(rowstr, out var row))
-                                            {
-                                                foreach (var student in students)
-                                                {
-                                                    if (student.Col == col && student.Row == row)
-                                                    {
-                                                        MessageBox.Show(MakeWindow.ShowStudent(student));
-                                                        goto Again;
-                                                    }
-                                                }
-                                                MessageBox.Show($"找不到座位为{col}列{row}行的同学");
-                                            }
-                                        }
-                                        break;
-                                    }
                             }
                         }
                     }
                     else if (dlg1.SelectIndex == 1)
                     {
-                        SelectDialog dlg2 = new(new string[] { "根据序号", "根据歌名" });
+                        SelectDialog dlg2 = new(["根据序号", "根据歌名"]);
                         if (dlg2.DialogResult == true)
                         {
                             if (dlg2.SelectIndex == 0)
                             {
                                 string idstr = Interaction.InputBox("歌序号", "输入");
-                                if (idstr != null && uint.TryParse(idstr, out var id))
+                                if (idstr != null && int.TryParse(idstr, out var id))
                                 {
                                     if (id > 0 && id < songs.Count)
                                         MessageBox.Show(MakeRandomSongWindow.ShowSong(songs.ElementAt((int)id - 1)));
@@ -553,15 +532,15 @@ namespace RandomList
 
         private void InsertMenuItemClick(object sender, RoutedEventArgs e)
         {
-            int select=StudentsList.SelectedIndex;
-            if(select>=0)
+            int select = StudentsList.SelectedIndex;
+            if (select >= 0)
             {
-                EditItemWindow wnd = new((uint)select + 2);
-                if(wnd.DialogResult==true)
+                EditItemWindow wnd = new(select + 2);
+                if (wnd.DialogResult == true)
                 {
                     students.Insert(select + 1, wnd.Result);
                     for (int i = 0; i < students.Count; i++)
-                        students[i].Id = (uint)i + 1;
+                        students[i].Id = i + 1;
                     UpdateStudentsList();
                 }
             }
@@ -572,13 +551,144 @@ namespace RandomList
             int select = SongsList.SelectedIndex;
             if (select >= 0)
             {
-                EditSongWindow wnd = new((uint)select + 2);
+                EditSongWindow wnd = new(select + 2);
                 if (wnd.DialogResult == true)
                 {
                     songs.Insert(select + 1, wnd.Result);
                     for (int i = 0; i < songs.Count; i++)
-                        songs[i].Id = (uint)i + 1;
+                        songs[i].Id =   i + 1;
                     UpdateSongsList();
+                }
+            }
+        }
+
+        private void InputButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectDialog dlg1 = new(["导入班级名单", "导入歌单", "导入配置文件"]);
+            if(dlg1.DialogResult == true)
+            {
+                switch(dlg1.SelectIndex)
+                {
+                    case 0:
+                        {
+                            OpenFileDialog dlg2 = new ();
+                            dlg2.Title = "选择班级名单";
+                            dlg2.Filter = "CSV表格|*.csv;*.txt";
+                            dlg2.ShowDialog();
+                            if(File.Exists(dlg2.FileName))
+                            {
+                                try
+                                {
+                                    DataTable dt = new();
+                                    using (StreamReader reader = new StreamReader(dlg2.FileName,Encoding.UTF8))
+                                    {
+                                        dt.Columns.Add(new DataColumn { ColumnName = "姓名", DataType = typeof(string) });
+                                        dt.Columns.Add(new DataColumn { ColumnName = "性别", DataType = typeof(string) });
+                                        reader.ReadLine();
+                                        string line = string.Empty;
+                                        while ((line = reader.ReadLine()) != null)
+                                        {
+                                            string[] cells = line.Split(',');
+                                            if (cells.Length != 2)
+                                            {
+                                                throw new Exception("名单格式错误，应为：姓名,性别");
+                                            }
+                                            var row = dt.NewRow();
+                                            row[0] = cells[0];
+                                            if (cells[1] != "男" && cells[1] != "女")
+                                                throw new Exception("性别有误，应为：男,女");
+                                            row[1] = cells[1];
+                                            dt.Rows.Add(row);
+                                        }
+                                    }
+                                    int id = 0;
+                                    List<Student> list = new();
+                                    foreach (DataRow i in dt.Rows)
+                                    {
+                                        id++;
+                                        list.Add(new Student
+                                        {
+                                            Id = id,
+                                            Name = i[0].ToString(),
+                                            Sex = i[1].ToString(),
+                                        });
+                                    }
+                                    students = list;
+                                    UpdateStudentsList();
+                                }
+                                catch(Exception ex)
+                                {
+                                    MessageBox.Show($"无法导入：{ex.Message}\n您可以尝试修改csv文件为UTF-8字符串编码格式");
+                                }
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            OpenFileDialog dlg2 = new();
+                            dlg2.Title = "选择歌单";
+                            dlg2.Filter = "CSV表格|*.csv;*.txt";
+                            dlg2.ShowDialog();
+                            if(File.Exists(dlg2.FileName))
+                            {
+                                try
+                                {
+                                    DataTable dt = new();
+                                    using (StreamReader reader = new StreamReader(dlg2.FileName, Encoding.UTF8))
+                                    {
+                                        dt.Columns.Add(new DataColumn { ColumnName = "歌名", DataType = typeof(string) });
+                                        dt.Columns.Add(new DataColumn { ColumnName = "歌手", DataType = typeof(string) });
+                                        reader.ReadLine();
+                                        string line = string.Empty;
+                                        while ((line = reader.ReadLine()) != null)
+                                        {
+                                            string[] cells = line.Split(',');
+                                            if (cells.Length != 2)
+                                            {
+                                                throw new Exception("歌单格式错误，应为：歌名,歌手");
+                                            }
+                                            var row = dt.NewRow();
+                                            row[0] = cells[0];
+                                            row[1] = cells[1];
+                                            dt.Rows.Add(row);
+                                        }
+                                    }
+                                    int id = 0;
+                                    List<Song> list = new();
+                                    foreach (DataRow i in dt.Rows)
+                                    {
+                                        id++;
+                                        list.Add(new Song
+                                        {
+                                            Id = id,
+                                            Name = i[0].ToString(),
+                                            Autor = i[1].ToString(),
+                                        });
+                                    }
+                                    songs = list;
+                                    UpdateSongsList();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show($"无法导入：{ex.Message}\n您可以尝试修改csv文件为UTF-8字符串编码格式");
+                                }
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            OpenFileDialog dlg2 = new();
+                            dlg2.Title = "选择配置文件";
+                            dlg2.Filter = "配置文件|*.xml;*.txt";
+                            dlg2.ShowDialog();
+                            if(File.Exists(dlg2.FileName))
+                            {
+                                Load(dlg2.FileName);
+                                UpdateStudentsList();
+                                UpdateSongsList();
+                            }
+                            break;
+                        }
                 }
             }
         }

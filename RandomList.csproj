@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
+	<UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
@@ -20,12 +21,10 @@
     <Page Remove="RandomNet\**" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="AppData.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Remove="MyApp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MyApp.png">
+    <Resource Include="AppData.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -35,7 +34,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NPOI.Excel" Version="2.1.1" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
 </Project>

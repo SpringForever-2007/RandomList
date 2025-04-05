@@ -23,29 +23,30 @@ namespace RandomList
         public MakeRandomSongWindow(List<Song> songs)
         {
             InitializeComponent();
+            Topmost = true;
             this.songs = songs;
             UpdateUI();
         }
 
         private void SongNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(SongNumberTextBox.Text!=string.Empty)
+            if (SongNumberTextBox.Text != string.Empty)
             {
-                if(!uint.TryParse(SongNumberTextBox.Text,out uint res))
+                if (!int.TryParse(SongNumberTextBox.Text, out int res))
                 {
-                    SongNumberTextBox.Text=GetVisibleCount(songs).ToString();
+                    SongNumberTextBox.Text = GetVisibleCount(songs).ToString();
                 }
-                else if(res==0||res>GetVisibleCount(songs))
+                else if (res == 0 || res > GetVisibleCount(songs))
                     SongNumberTextBox.Text = GetVisibleCount(songs).ToString();
             }
         }
 
-        private uint GetVisibleCount(List<Song> songs)
+        private int GetVisibleCount(List<Song> songs)
         {
-            uint num = 0;
+            int num = 0;
             foreach (Song s in songs)
             {
-                if (s.IsVisibility == true)
+                if (s.IsVisible == true)
                     num++;
             }
             return num;
@@ -54,10 +55,10 @@ namespace RandomList
         private void UpdateUI()
         {
             ResultsTextBox.Text = string.Empty;
-            if(uint.TryParse(SongNumberTextBox.Text,out uint res))
+            if (int.TryParse(SongNumberTextBox.Text, out int res))
             {
-                if(res==0||res>GetVisibleCount(songs))
-                    SongNumberTextBox.Text=GetVisibleCount(songs).ToString();
+                if (res == 0 || res > GetVisibleCount(songs))
+                    SongNumberTextBox.Text = GetVisibleCount(songs).ToString();
             }
             else SongNumberTextBox.Text = GetVisibleCount(songs).ToString();
         }
@@ -70,7 +71,6 @@ namespace RandomList
         public static void OpenKugouSearchLink(string songName)
         {
             string encodedSongName = Uri.EscapeDataString(songName);
-
             //酷狗音乐网页版
             string searchLink = $"https://www.kugou.com/yy/html/search.html#searchType=song&searchKeyWord={encodedSongName}";
 
@@ -83,20 +83,21 @@ namespace RandomList
                 };
                 Process.Start(psi);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"查找失败：{ex.Message}");
             }
         }
 
         private List<Song> songs;
-
+        private bool isMark = false;
         private void MakeButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateUI();
             List<Song> list = new();
-            for(int i=0;i<songs.Count;i++)
+            for (int i = 0; i < songs.Count; i++)
             {
-                if (songs[i].IsVisibility==true)
+                if (songs[i].IsVisible == true)
                     list.Add(songs[i]);
             }
             if (list.Count == 0)
@@ -104,26 +105,23 @@ namespace RandomList
                 MessageBox.Show("已经没有可选的歌曲了，去还原可选试试");
                 return;
             }
-            if(uint.TryParse(SongNumberTextBox.Text,out uint res))
+            if (int.TryParse(SongNumberTextBox.Text, out int res))
             {
                 if ((res == 0) || res > list.Count)
-                    res = (uint)list.Count;
-                int[] arr = new RandomMaker().MakeUnique((int)res,0,list.Count);
-                if(WebSearchCheckBox.IsChecked == true)
+                    res = list.Count;
+                int[] arr;
+                arr = new RandomMaker().MakeUnique(res, 0, list.Count);
+                foreach (int i in arr)
                 {
-                    foreach (int i in arr)
-                    {
-                        ResultsTextBox.Text += ShowSong(list[i]);
-                        songs[(int)list[i].Id - 1].IsVisibility = false;
-                        OpenKugouSearchLink(list[i].Name);
-                    }
+                    ResultsTextBox.Text += ShowSong(list[i]);
+                    if(isMark)
+                        songs[(int)list[i].Id - 1].IsVisible = false;
                 }
-                else
+                if (WebSearchCheckBox.IsChecked == true)
                 {
                     foreach (int i in arr)
                     {
-                        ResultsTextBox.Text += ShowSong(list[i]);
-                        songs[(int)list[i].Id - 1].IsVisibility = false;
+                        OpenKugouSearchLink(list[i].Name);
                     }
                 }
             }
@@ -132,6 +130,11 @@ namespace RandomList
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void MarkCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            isMark = (sender as CheckBox).IsChecked == true;
         }
     }
 }

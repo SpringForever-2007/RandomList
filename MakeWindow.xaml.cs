@@ -24,28 +24,28 @@ namespace RandomList
         {
             this.students = students;
             InitializeComponent();
+            Topmost = true;
             SexComboBox.SelectedIndex = 2;
-            BoardComboBox.SelectedIndex = 2;
             MinTextBox.Text = Min(students).ToString();
             MaxTextBox.Text = Max(students).ToString();
             CountTextBox.Text = students.Count().ToString();
         }
 
-        private uint sex=2, board=2, min=1, max=50, count=10;
-
+        private int sex=2, min=1, max=50, count=10;
+        private bool isMark = false;
         private void SexComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox element = (ComboBox)sender;
             if (element != null)
             {
-                sex=(uint)element.SelectedIndex;
+                sex=element.SelectedIndex;
                 UpdateUI();
             }
         }
 
-        public uint Min(List<Student> list)
+        public int Min(List<Student> list)
         {
-            uint num = list[0].Id;
+            int num = list[0].Id;
             foreach(Student student in list)
             {
                 if(student.Id<num)num= student.Id;
@@ -55,17 +55,7 @@ namespace RandomList
 
         public static string ShowStudent(Student student)
         {
-            return $"座号：{student.Id,5}\t\t姓名：{student.Name,4}\t\t性别：{student.Sex,2}\t\t座位：{student.Position,10}\t\t住宿：{(student.IsBoarding ? "是" : "否"),3}\n";
-        }
-
-        private void BoardComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox element= (ComboBox)sender;
-            if (element != null)
-            {
-                board=(uint)element.SelectedIndex;
-                UpdateUI();
-            }
+            return $"座号：{student.Id,5}\t\t姓名：{student.Name,4}\t\t性别：{student.Sex,2}\n";
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -73,7 +63,7 @@ namespace RandomList
             TextBox element = (TextBox)sender;
             if(element != null&&element.Text!=string.Empty)
             {
-                if(!uint.TryParse(element.Text,out uint res))
+                if(!int.TryParse(element.Text,out int res))
                 {
                     UpdateUI();
                     if(element.Name=="MinTextBox")element.Text=min.ToString();
@@ -94,12 +84,24 @@ namespace RandomList
             DialogResult = true;
         }
 
+        private void MarkCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            isMark = (sender as CheckBox).IsChecked == true;
+        }
+
         private void MakeButton_Click(object sender, RoutedEventArgs e)
         {
             var list = UpdateUI();
             if(list.Count>0)
             {
                 int[] arr=new RandomMaker().MakeUnique((int)count,0,list.Count);
+                if (isMark)
+                {
+                    foreach(var i in arr)
+                    {
+                        students[(int)list[i].Id - 1].IsVisible = false;
+                    }
+                }
                 foreach (var i in arr)
                     ResultsTextBox.Text += ShowStudent(list[i]);
             }
@@ -107,9 +109,9 @@ namespace RandomList
                 MessageBox.Show("已经没有符合条件的学生了，尝试修改条件试试");
         }
 
-        private uint Max(List<Student> list)
+        private int Max(List<Student> list)
         {
-            uint num = list[0].Id;
+            int num = list[0].Id;
             foreach(Student student in list)
             {
                 if(student.Id>num) num= student.Id;
@@ -133,17 +135,7 @@ namespace RandomList
                     list.Remove(student);
                     continue;
                 }
-                if(board==0&&student.IsBoarding==false)
-                {
-                    list.Remove(student);
-                    continue;
-                }
-                if(board==1&&student.IsBoarding==true)
-                {
-                    list.Remove(student);
-                    continue;
-                }
-                if(student.IsVisibility==false)
+                if(student.IsVisible==false)
                 {
                     list.Remove(student);
                     continue;
@@ -156,7 +148,7 @@ namespace RandomList
                 i++;
             }
             if (list.Count == 0) return list;
-            if (count > list.Count) count = (uint)list.Count;
+            if (count > list.Count) count = list.Count;
             if (min < Min(list)) min = Min(list);
             if (max > Max(list)) max = Max(list);
             MinTextBox.Text=min.ToString();

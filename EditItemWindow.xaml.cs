@@ -18,7 +18,7 @@ namespace RandomList
     /// </summary>
     public partial class EditItemWindow : Window
     {
-        public EditItemWindow(uint id)
+        public EditItemWindow(int id)
         {
             Result = new Student();
             InitializeComponent();
@@ -33,9 +33,6 @@ namespace RandomList
             Result = student;
             NameTextBox.Text = student.Name;
             SexCheckBox.IsChecked = student.Sex=="男"?true:false;
-            RowTextBox.Text=student.Row.ToString();
-            ColTextBox.Text=student.Col.ToString();
-            BoardChecjBox.IsChecked=student.IsBoarding;
             ShowDialog();
         }
 
@@ -45,10 +42,7 @@ namespace RandomList
         {
             Result.Name=NameTextBox.Text;
             Result.Sex = (bool)SexCheckBox.IsChecked ? "男" : "女";
-            Result.Row = uint.Parse(RowTextBox.Text);
-            Result.Col = uint.Parse(ColTextBox.Text);
-            Result.IsBoarding = (bool)BoardChecjBox.IsChecked;
-            Result.IsVisibility = true;
+            Result.IsVisible = true;
             DialogResult = true;
         }
 
@@ -62,7 +56,7 @@ namespace RandomList
             TextBox element = (TextBox)sender;
             if (element != null&&element.Text!=string.Empty)
             {
-                if(!uint.TryParse(element.Text, out uint result))
+                if(!int.TryParse(element.Text, out int result))
                     element.Text = string.Empty;
             }
         }

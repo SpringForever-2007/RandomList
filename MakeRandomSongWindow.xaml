@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomList"
         mc:Ignorable="d"
-        Title="生成" Height="450" Width="800" Background="WhiteSmoke">
+        Title="生成" Height="300" Width="600" Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -17,6 +17,8 @@
             <TextBox x:Name="SongNumberTextBox" TextChanged="SongNumberTextBox_TextChanged" Width="80" Margin="10,10,10,10" TabIndex="0"></TextBox>
             <TextBlock Text="自动在Web查找" Margin="10,10,10,10"></TextBlock>
             <CheckBox x:Name="WebSearchCheckBox" IsThreeState="False" VerticalAlignment="Center"></CheckBox>
+            <TextBlock Text="标记可选" Margin="10,10,10,10"></TextBlock>
+            <CheckBox Margin="10,10,10,10" IsThreeState="False" Checked="MarkCheckBox_Checked" TabIndex="3"></CheckBox>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <TextBox IsReadOnly="True" AcceptsReturn="True" x:Name="ResultsTextBox" Grid.Row="1" TabIndex="1"></TextBox>
